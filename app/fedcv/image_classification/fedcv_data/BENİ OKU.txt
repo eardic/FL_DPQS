@@ -1,0 +1,134 @@
+--------------------------------------
+VERİ KÜMESİ HAZIRLIK KILAVUZU
+--------------------------------------
+
+Bu dosya, tez kapsamında kullanılan veri kümelerinin nasıl hazırlanacağını açıklamaktadır.  
+Tüm veri kümeleri aşağıdaki klasörde yer almalıdır:
+
+    app/fedcv/image_classification/fedcv_data
+
+Model eğitimi öncelikle CIFAR10 ve MNIST veri kümeleri üzerinde gerçekleştirildiğinden, bu iki veri kümesinin indirilmesi zorunludur.  
+Eğer open-set (açık küme) gürültü veri kümeleri kullanılacaksa, onların da ayrıca indirilip hazırlanması önerilir.  
+Gerekli veri hazırlama komut dosyaları `fedml/data` dizini altında bulunmaktadır.
+
+--------------------------------------
+1. CIFAR10
+--------------------------------------
+
+- İndirme adresi:  
+  https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
+
+- İndirilen arşiv `fedcv_data` klasörüne çıkarılmalıdır. Klasör yapısı şu şekilde olmalıdır:
+
+    fedcv_data/
+    └── cifar-10-batches-py/
+        ├── batches.meta
+        ├── data_batch_1
+        ├── data_batch_2
+        ├── data_batch_3
+        ├── data_batch_4
+        ├── data_batch_5
+        ├── test_batch
+        └── readme.html
+
+--------------------------------------
+2. MNIST
+--------------------------------------
+
+- İndirme adresi:  
+  https://fedcv.s3.us-west-1.amazonaws.com/MNIST.zip
+
+- İndirilen içerik `fedcv_data` klasörüne çıkarılmalıdır. Klasör yapısı aşağıdaki gibi olmalıdır:
+
+    fedcv_data/MNIST/
+    ├── train/all_data_0_niid_0_keep_10_train_9.json
+    └── test/all_data_0_niid_0_keep_10_test_9.json
+
+- Ardından şu komut dosyası çalıştırılmalıdır:
+
+    fedml/data/MNIST/renormalize.py
+
+Bu script ile görüntüler 0-1 aralığına normalize edilir.
+
+--------------------------------------
+3. Gürültü (Noise) Veri Kümeleri
+--------------------------------------
+
+Open-set gürültü olarak aşağıdaki veri kümeleri kullanılabilir: ImageNet32, FEMNIST, SVHN.
+
+Bu veri kümelerine özel PyTorch DataLoader sınıfları:
+
+- `fedml/data/ImageNet/datasets.py` (ImageNet32Noise)
+- `fedml/data/FederatedEMNIST/data_loader.py` (FEMNISTLetterNoise)
+- `fedml/data/cifar10/data_loader.py` (ImageNoiseFolder - SVHN için)
+
+**ImageNet32**
+- İndirme linki: https://www.image-net.org/data/downsample/Imagenet32_train.zip
+- `train_data_batch_1` klasörü aşağıdaki gibi yerleştirilmelidir:
+
+    fedcv_data/imagenet32/train_data_batch_1/
+
+**SVHN**
+- İndirme linki: https://www.kaggle.com/datasets/stanfordu/street-view-house-numbers?select=train
+- `train` klasörü aşağıdaki şekilde konumlandırılmalıdır:
+
+    fedcv_data/SVHN/train/
+
+**FEMNIST**
+- İndirme linki: https://fedml.s3-us-west-1.amazonaws.com/fed_emnist.tar.bz2
+- Aşağıdaki dosya doğrudan klasöre konulmalıdır:
+
+    fedcv_data/fed_emnist_train.h5
+
+--------------------------------------
+4. Medikal Görüntü Veri Kümeleri
+--------------------------------------
+
+Differential privacy ve quantization deneylerinde kullanılan medikal görüntü veri kümelerine ait scriptler aşağıdaki dizinlerde yer almaktadır.  
+İlgili veri kümeleri linklerden indirildikten sonra, `preprocess` scriptleri içindeki yol tanımları düzenlenmeli ve scriptler çalıştırılmalıdır.  
+Hazırlık tamamlandığında, aşağıdaki klasör yapılarının oluşması beklenir.
+
+**Chest X-ray**  
+- Script: `fedml/data/chest_xray/preprocess_dataset.py`  
+- Veri kümesi: https://data.mendeley.com/datasets/rscbjbr9sj/3  
+- Klasör yapısı:
+
+    fedcv_data/chest_xray/
+    ├── train/
+    │   ├── normal/*.jpeg
+    │   └── pneumonia/*.jpeg
+    └── test/
+        ├── normal/*.jpeg
+        └── pneumonia/*.jpeg
+
+**BreaKHis**  
+- Script: `fedml/data/breakhis_v1/preprocess.py`  
+- Veri kümesi: http://www.inf.ufpr.br/vri/databases/BreaKHis_v1.tar.gz  
+- Klasör yapısı:
+
+    fedcv_data/breakhis_v1/
+    ├── train/
+    │   ├── Benign/*.png
+    │   └── Malignant/*.png
+    └── test/
+        ├── Benign/*.png
+        └── Malignant/*.png
+
+**PAP Smear (SipakMeD)**  
+- Script: `fedml/data/pansmear/preprocess_dataset.py`  
+- Veri kümesi: https://www.cs.uoi.gr/~marina/sipakmed.html  
+- Klasör yapısı:
+
+    fedcv_data/pansmear/
+    ├── train/
+    │   ├── class1/*.bmp
+    │   ├── class2/*.bmp
+    │   ├── class3/*.bmp
+    │   ├── class4/*.bmp
+    │   └── class5/*.bmp
+    └── test/
+        ├── class1/*.bmp
+        ├── class2/*.bmp
+        ├── class3/*.bmp
+        ├── class4/*.bmp
+        └── class5/*.bmp

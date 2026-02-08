@@ -1,0 +1,79 @@
+common_args:
+  training_type: "simulation"
+  random_seed: 0
+
+data_args:
+  dataset: "cifar10" # mnist
+  data_cache_dir: "fedcv_data/"
+  partition_method: "hetero-fix" # 'hetero' for mnist, 'hetero-fix' for cifar10
+  partition_alpha: 0.5
+
+model_args:
+  model: "aec"
+  aec_use_vae: 0
+  aec_vae_zdim: 128
+  aec_dropout: 0
+
+train_args:
+  federated_optimizer: "FedAvg"
+  client_id_list: "[]"
+  client_num_in_total: 1000
+  client_num_per_round: 100
+  comm_round: 1000
+  epochs: 5
+  batch_size: 1000
+  client_optimizer: adam
+  learning_rate: 0.00003
+  weight_decay: 0.00001
+  client_max_workers: 1
+  client_max_test_size: 0
+  client_label_noise: 0
+  # AEC
+  aec_ce_loss_w: 0.05
+  aec_re_loss_w: 1
+  aec_kl_loss_w: 0.01
+  #IAE
+  aec_iae_round_start: -1
+  aec_iae_nu: 0.1
+  aec_iae_lamda: 0.0001
+  # clip, -1 means disabled
+  gradient_clip_t: -1
+  gradient_clip_norm: 1
+  best_metric: ""
+
+dp_args:
+  enable_dp: false
+  dp_type: ldp # cdp or ldp
+  epsilon: 1000
+  delta: 0.1
+  sensitivity: 0
+  mechanism_type: laplace # laplace, gaussian
+
+quantization_args:
+  enable_quantization: false
+  quantize_precision: 16 # [1, 32]
+  quantize_algo: "scale" # scale, affine, stochastic
+  quantize_op: "per_batch" # per_row (1d), per_channel (2d), per_batch (3d), per_tensor (layer)
+  quantize_schedule: "" # cosine
+  quantize_schedule_min_b: 8 # min bit-length
+  quantize_dyn: false
+  quantize_dyn_hs_w: 0.5
+  quantize_dyn_ss_w: 0.5
+
+validation_args:
+  frequency_of_the_test: 10
+
+device_args:
+  using_gpu: true
+  gpu_id: 0
+
+comm_args:
+  backend: "sp"
+  is_mobile: 0
+
+tracking_args:
+  log_file_dir: ./log
+  enable_wandb: true
+  wandb_key: 162987faab283f3cf18e0081550378231b666714
+  wandb_project: fedml-aec2
+  wandb_name: allb

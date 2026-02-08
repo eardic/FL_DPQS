@@ -1,0 +1,19 @@
+Toplu Eğitim Scriptleri (Windows)
+---------------------------------
+
+Windows ortamında toplu eğitim işlemlerini kolaylaştırmak amacıyla örnek .bat (batch) script dosyaları hazırlanmıştır. Bu scriptler ve kullanım amaçları aşağıda açıklanmıştır:
+
+1. Script: app\fedcv\image_classification\sample_selection.bat
+   - Açıklama: Tezde sunulan örnek seçim (sample selection) deneyleri için kullanılmıştır.
+   - Veri Kümeleri: CIFAR10 ve MNIST üzerinde eğitim yapılmıştır.
+   - Open-set Noise: ImageNet32, SVHN ve FEMNIST veri kümeleri open-set noise olarak kullanılmıştır.
+
+2. Script: app\fedcv\image_classification\mnist_cifar10_dp_and_quant.bat
+3. Script: app\fedcv\image_classification\medical_dp_and_quant.bat
+   - Açıklama: Bu iki script, tez kapsamında gerçekleştirilen differential privacy ve quantization deneyleri için kullanılmıştır.
+   - Veri Kümeleri: CIFAR10 ve MNIST veri kümeleri kullanılmıştır.
+   - Medikal Görüntüler: Medikal veri kümeleri ile yapılan deneyler için "medical_dp_and_quant.bat" scripti kullanılmalıdır.
+
+Not:
+----
+Tüm scriptler `app\fedcv\image_classification` dizini içinde çalıştırılmalıdır.

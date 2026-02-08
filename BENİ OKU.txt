@@ -1,0 +1,55 @@
+Kullanılan Kütüphane
+--------------------
+Bu tez çalışmasında, federated learning deneyleri için FedML açık kaynak kütüphanesi kullanılmıştır:
+https://github.com/FedML-AI/FedML
+
+Geliştirilen Algoritmalar ve Kod Konumları
+------------------------------------------
+
+1. Sample Selection Algoritmaları
+   - Konum: fedml/core/data_valuation/*
+   - Açıklama: Anormal veya düşük kaliteli örneklerin tespiti için kullanılan veri seçme algoritmaları.
+
+2. Laplacian Tabanlı Diferansiyel Gizlilik (DP) Mekanizması
+   - Konum: fedml/core/dp/mechanisms/*
+   - Açıklama: Yerel model güncellemelerini gizli hale getirmek için kullanılan Laplace mekanizması.
+
+3. Quantization Algoritmaları
+   - Konum: fedml/utils/quantize.py
+   - Açıklama: İletim yükünü azaltmak amacıyla sabit ve adaptif bit-uzunluklu kuantizasyon yöntemleri.
+
+4. Server ve Client Algoritmaları
+   - Konum: fedml/simulation/sp/fedavg/*
+   - Açıklama: Federated Averaging (FedAvg) yöntemine dayalı sunucu ve istemci mantığı.
+
+5. Ortam Değişkenleri ile Eğitim Parametreleri Tanımı
+   - Konum: fedml/__init__.py
+   - Açıklama: Eğitim sırasında kullanılan hiperparametrelerin tanımı ve yönetimi.
+
+6. Model Eğitim ve Test Algoritmaları
+   - Konum: fedml/ml/trainer/my_model_trainer_classification.py
+   - Açıklama: Sınıflandırma modeli eğitimi ve değerlendirmesine ilişkin algoritmalar.
+
+7. Multi-task AutoEncoder ve Classification Models
+   - Konum: fedml/model/cv/*
+   - Açıklama: Tezde kullanılan AE ve Classification modelleri burda tanımlanmıştır. Bunun için "model_hub.py" scripti incelenebilir.
+
+Kullanım Talimatları
+--------------------
+
+- Kodlar, Windows 11'de Python 3.6 ile geliştirilmiştir.
+- Gerekli Python paketlerini kurmak için aşağıdaki adımları izleyiniz:
+
+1. Sanal ortam oluşturun (isteğe bağlı fakat önerilir):
+
+   python -m venv venv
+   venv\Scripts\activate
+
+2. Gerekli bağımlılıkları kurun:
+
+   pip install -r requirements.txt
+
+3. Proje dizini "app\fedcv\image_classification" 
+
+   Gerekli veri kümelerini öğrenmek ve örnek eğitim scriptlerine ulaşmak için bu dizini ziyaret ediniz.
+   Burdaki "image_classification\BENİ OKU.txt" ve "image_classification\fedcv_data\BENİ OKU.txt" talimatlarını inceleyebilirsiniz.

@@ -1,0 +1,55 @@
+common_args:
+  training_type: "simulation"
+  random_seed: 0
+
+data_args:
+  dataset: "cifar10"
+  data_cache_dir: "fedcv_data/"
+  partition_method: "hetero-fix"
+  partition_alpha: 0.5
+
+data_val_args:
+  data_val_algo: "tmc_group"   # loo, gnorm, tmc, fedbal
+  data_val_metric: "acc"
+  tmc_error: 0.2
+  tmc_max_iter: 100
+  tmc_max_truncate: 3
+  tmc_group_size: 2
+  remove_bad_ratio: 1.0
+  data_val_save_scores: 1
+
+model_args:
+  model: "vgg7"
+
+train_args:
+  federated_optimizer: "FedAvg"
+  client_id_list: "[]"
+  client_num_in_total: 1000
+  client_num_per_round: 100
+  comm_round: 500
+  epochs: 5
+  batch_size: 1000
+  client_optimizer: sgd
+  learning_rate: 0.03
+  weight_decay: 0.001
+  client_max_workers: 1
+  client_max_test_size: 200
+  client_label_noise: 0.6
+
+validation_args:
+  frequency_of_the_test: 1
+
+device_args:
+  using_gpu: true
+  gpu_id: 0
+
+comm_args:
+  backend: "sp"
+  is_mobile: 0
+
+tracking_args:
+  log_file_dir: ./log
+  enable_wandb: true
+  wandb_key: 162987faab283f3cf18e0081550378231b666714
+  wandb_project: fedml-vgg7
+  wandb_name: cifar10-1k-100-e5-allb-tmcg-e0.2-i3-wo1
